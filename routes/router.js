@@ -145,4 +145,22 @@ router.get('/deleteUser', async (req, res) => {
 	});
 
 
+
+
+const petModel = include('models/pet');  // Make sure this points to your pet model
+
+router.get('/pets', async (req, res) => {
+  try {
+    // Query all pets, but only return the 'name' field
+    const pets = await petModel.findAll({ attributes: ['name'] });
+    // Render pets.ejs, passing in the array of pets
+    res.render('pets', { allPets: pets });
+  } catch (error) {
+    console.error("Error retrieving pets:", error);
+    res.render('error', { message: 'Error retrieving pets from database.' });
+  }
+});
+
+
+
 module.exports = router;
